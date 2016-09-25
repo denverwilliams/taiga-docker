@@ -1,4 +1,4 @@
-FROM nginx:1.7
+FROM nginx:1.11.4
 
 MAINTAINER Hylke Visser <htdvisser@gmail.com>
 
