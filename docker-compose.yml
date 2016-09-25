@@ -1,0 +1,40 @@
+db:
+  image: postgres
+  environment:
+    - POSTGRES_USER=taiga
+    - POSTGRES_PASSWORD=password
+    - POSTGRES_DB_NAME=taiga
+  volumes:
+    - ./volumes/taiga-db:/var/lib/postgresql/data
+taigaback:
+  image: taiga-back
+  hostname: taiga.ii.org.nz
+  environment:
+    - TAIGA_SLEEP=8
+    - POSTGRES_USER=taiga
+    - POSTGRES_PASSWORD=password
+    - POSTGRES_DB_NAME=taiga
+    - SECRET_KEY=secret
+    - EMAIL_USE_TLS=True
+    - EMAIL_HOST=smtp.gmail.com
+    - EMAIL_PORT=587
+    - EMAIL_HOST_USER=smtp@gmail.com
+    - EMAIL_HOST_PASSWORD=password
+  links:
+    - db:postgres
+  volumes:
+    - ./volumes/taiga/media:/usr/local/taiga/media
+    - ./volumes/taiga/static:/usr/local/taiga/static
+    - ./volumes/taiga/logs:/usr/local/taiga/logs
+
+taigafront:
+  image: taiga-front
+  hostname: taiga.ii.org.nz
+  links:
+    - taigaback
+  ports:
+    - 0.0.0.0:80:80
+  volumes:
+    - ./volumes/taiga/media:/usr/local/taiga/media
+    - ./volumes/taiga/static:/usr/local/taiga/static
+    - ./volumes/taiga/logs:/usr/local/taiga/logs
