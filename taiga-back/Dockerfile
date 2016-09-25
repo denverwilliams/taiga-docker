@@ -27,6 +27,7 @@ ADD ./local.py /usr/local/taiga/taiga-back/settings/local.py
 # Configure and Start scripts
 ADD ./configure /usr/local/taiga/configure
 ADD ./start /usr/local/taiga/start
+ADD ./checkdb.py /checkdb.py
 RUN chmod +x /usr/local/taiga/configure /usr/local/taiga/start
 
 VOLUME /usr/local/taiga/media
